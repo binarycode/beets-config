@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
 docker run \
+  --interactive \
+  --tty \
   --rm \
-  -v $(pwd):/beets \
-  -v $DB:/db \
+  --volume "$(pwd):/beets" \
+  --volume "$DB:/db" \
   beets \
   beet $1

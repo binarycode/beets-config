@@ -6,7 +6,7 @@ TO=
 
 while true; do
   case "$1" in
-    --from )
+    --db )
       DB=$2
       shift
       shift
@@ -24,7 +24,7 @@ while true; do
       shift
       ;;
 
-    * )
+    -h | --help )
       echo "Usage: ./import.sh --db DB --from FROM --to TO"
       echo " --db"
       echo "   path to beets DB file"
@@ -36,6 +36,10 @@ while true; do
       echo " --to"
       echo "   path to music archive"
       exit 0
+      ;;
+
+    * )
+      break
       ;;
   esac
 done
@@ -59,11 +63,12 @@ then
 fi
 
 docker run \
+  --interactive \
+  --tty \
   --rm \
-  -c /beets/config.yaml \
-  -v $(pwd):/config \
-  -v $DB:/db \
-  -v $FROM:/from \
-  -v $TO:/to \
+  --volume "$(pwd):/beets" \
+  --volume "$DB:/db" \
+  --volume "$FROM:/from" \
+  --volume "$TO:/to" \
   beets \
-  beet import /from
+  beet -c /beets/config.yaml import /from
