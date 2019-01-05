@@ -1,0 +1,17 @@
+directory: /to
+library: /db
+
+import:
+  move: yes
+
+paths:
+  default: Albums/%the{%asciify{$albumartist}}/[%if{$year,$year,0000}] %the{%asciify{$album}}%aunique{}/$track - %asciify{$title}
+  singleton: Non-Album/%the{%asciify{$artist}}/%asciify{$title}
+  comp: Compilations/[%if{$year,$year,0000}] %the{%asciify{$album}}%aunique{}/$track - %asciify{$title}
+
+plugins:
+  - acousticbrainz
+  - fetchart
+  - lastgenre
+  - scrub
+  - the
